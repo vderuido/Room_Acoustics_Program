@@ -53,13 +53,11 @@ def obtainGlobal(x):
 # x: índice a evaluar
 # modo: variable que indica si se está en modo de tercio o de octava. 0=1/3octava, 1=octava
 def globalIndexA(x,modo):
-    if modo==0:
+    if modo==False:
         correcciones=[-22.4,-14.9,-9.5,-6.3,-5.1,-5.3]
-    elif modo==1:
-        correcciones=[-30.1,-27.1,-24.4,-21.9,-19.6,-17.6,-15.8,-14.2,-12.9,-11.8,-11.0,-10.4,-10.0,-9.8,-9.7,-9.8,-10.0,-10.5]
     else:
-        print("modo erróneo")
-        break
+        correcciones=[-30.1,-27.1,-24.4,-21.9,-19.6,-17.6,-15.8,-14.2,-12.9,-11.8,-11.0,-10.4,-10.0,-9.8,-9.7,-9.8,-10.0,-10.5]
+
     valoresCorregidos=[0]*len(correcciones)
     suma=0
     for i in range(0,len(correcciones)):
@@ -71,13 +69,11 @@ def globalIndexA(x,modo):
 # x: diferencia de nivel o indice de reducción sonora en bandas de frecuencia
 # modo: indica si las bandas son de 1/3 o de octava. 0=1/3octava, 1=octava
 def globalValueAereo(x,modo):
-    if modo==0:
+    if modo==False:
         correcciones=[36.0,45.0,52.0,55.0,56.0,56.0]
-    elif modo==1:
-        correcciones=[33.0,36.0,39.0,42.0,45.0,48.0,51.0,52.0,53.0,54.0,55.0,56.0,56.0,56.0,56.0,56.0,56.0,56.0]
     else:
-        print("modo erróneo")
-        break
+        correcciones=[33.0,36.0,39.0,42.0,45.0,48.0,51.0,52.0,53.0,54.0,55.0,56.0,56.0,56.0,56.0,56.0,56.0,56.0]
+
     valoresCorregidos=[0]*len(correcciones)
     desvDesfa=2000
     contador=0
@@ -88,7 +84,7 @@ def globalValueAereo(x,modo):
             if valoresCorregidos[i]>0:
                 desvactual=desvactual+valoresCorregidos[i]
         desvDesfa=desvactual
-        contador++
+        contador=contador+1
     if modo==0:
         return correcciones[2]-contador
     elif modo==1:
