@@ -51,9 +51,9 @@ def obtainGlobal(x):
 
 # Función que calcular el índice global ponderado A
 # x: índice a evaluar
-# modo: variable que indica si se está en modo de tercio o de octava. 0=1/3octava, 1=octava
+# modo: variable que indica si se está en modo de tercio o de octava. 1=1/3octava, 0=octava
 def globalIndexA(x,modo):
-    if modo==False:
+    if modo==True:
         correcciones=[-22.4,-14.9,-9.5,-6.3,-5.1,-5.3]
     else:
         correcciones=[-30.1,-27.1,-24.4,-21.9,-19.6,-17.6,-15.8,-14.2,-12.9,-11.8,-11.0,-10.4,-10.0,-9.8,-9.7,-9.8,-10.0,-10.5]
@@ -67,9 +67,9 @@ def globalIndexA(x,modo):
 
 # Función que calcula el valor global para ruido aéreo
 # x: diferencia de nivel o indice de reducción sonora en bandas de frecuencia
-# modo: indica si las bandas son de 1/3 o de octava. 0=1/3octava, 1=octava
+# modo: indica si las bandas son de 1/3 o de octava. 1=1/3octava, 0=octava
 def globalValueAereo(x,modo):
-    if modo==False:
+    if modo==True:
         correcciones=[36.0,45.0,52.0,55.0,56.0,56.0]
     else:
         correcciones=[33.0,36.0,39.0,42.0,45.0,48.0,51.0,52.0,53.0,54.0,55.0,56.0,56.0,56.0,56.0,56.0,56.0,56.0]
