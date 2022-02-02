@@ -17,7 +17,7 @@ sl.write("#### Para comenzar, sube un archivo '.csv' con los datos en filas (ter
 archivo=sl.file_uploader("Fichero con los datos.", 'csv')
 modo=tercoctava=sl.checkbox('1/3 de octava')
 
-
+# Condiciones Checkbox
 if tercoctava:
     df=pd.DataFrame(
         np.zeros((2,31)),
@@ -29,6 +29,7 @@ else:
         columns=octavas
     )
 
+# Condiciones subida archivo
 if archivo is not None:
     datos=pd.read_csv(archivo)
     (y,x)=datos.shape
@@ -46,6 +47,7 @@ if archivo is not None:
 grid_return = AgGrid(df, editable=True)
 new_df = grid_return['data']
 
+# Selección de cálculos
 sl.write("### Selecciona el cálculo que quieras hacer")
 
 option = sl.radio(
@@ -67,14 +69,20 @@ elif option=='Indice de reduccion sonora':
     a=funciones.levelDifference(new_df.loc[0], new_df.loc[1])
     d=funciones.indexReduction(a,superficie,area)
 else:
-    d=np.zeros((10))
+    if modo==False:
+        d=np.zeros((10))
+    else:
+        d=np.zeros((31))
 
-
-fin=pd.DataFrame(columns=octavas)
+#Mostrar resultados
+if modo==False:
+    fin=pd.DataFrame(columns=octavas)
+else:
+    fin=pd.DataFrame(columns=tercios)
 fin.loc[0]=d
 sl.dataframe(fin)
 
-
+# Selección de valores globales
 option2 = sl.radio(
      '¿Quieres calcular un valor absoluto?',
      ('No','Valor global', 'Valor global ponderado A','Valor global para ruido aereo')
@@ -83,12 +91,10 @@ if option2=='Valor global':
     valorGlobal=funciones.obtainGlobal(d)
     valorGlobalFinal=sl.metric(label="Valor global", value=str(valorGlobal)+" dB")
 elif option2=='Valor global ponderado A':
-    #Falta por arreglar
-    valorGlobal=funciones.globalIndexA(fin.iloc[0,2:8],modo)
+    valorGlobal=funciones.globalIndexA(fin,modo)
     valorGlobalFinal=sl.metric(label="Valor global", value=str(valorGlobal)+" dBA")
 elif option2=='Valor global para ruido aereo':
-    #Falta por arreglar
-    valorGlobal=funciones.globalValueAereo(d,modo)
+    valorGlobal=funciones.globalValueAereo(fin,modo)
     valorGlobalFinal=sl.metric(label="Valor global", value=str(valorGlobal)+" dB")
 else:
     valorGlobal=0
