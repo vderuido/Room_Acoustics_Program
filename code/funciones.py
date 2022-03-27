@@ -95,4 +95,42 @@ def globalValueAereo(x,modo):
         return correcciones[7]-contador
     
     
+# Función que calcula el tiempo de reverberación de una sala estilo "caja de zapatos" utilizando la
+# fórmula de Sabine.
+# volumen: volumen de la sala
+# superficie: superficie de todas las paredes con características absorbentes de la sala
+# A: area de absorción sonora
+def calculoSabine(volumen, A, superficie):
+    t=0.16*volumen/(superficie*A)
+    return t
 
+
+# Función que calcula el area de absorción sonora, A.
+# superficies: lista con las distintas superficies que contienen material absorbente en la sala
+# alpha: lista con los coeficientes de absorción de cada superficie
+def calculoAreaAbsorcion(superficies, alpha):
+    if len(superficies)==len(alpha):
+        A=0
+        for x in superficies:
+            temporal=supericies[x]*alpha[x]
+            A=A+temporal
+        return A
+    else:
+        print("superficies y alpha deben de tener la misma dimensión")
+        return 0
+
+# Función que calcula el tiempo de reverberación utilizando la fórmula de Eyring
+# superficie:
+def calculoEyring(superficies, alpha, volumen):
+    if len(superficies)==len(alpha):
+        A=0
+        for x in superficies:
+            temporal=superficies[x]*math.log(alpha[x])
+            A=A+temporal
+        tr=0.16*volumen/(-A)
+        return tr
+    else:
+        print("superficies y alpha deben de tener las mismas dimensiones")
+        return 0
+
+             
