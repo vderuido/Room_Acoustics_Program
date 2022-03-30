@@ -17,16 +17,30 @@ sl.write("#### Para comenzar, sube un archivo '.csv' con los datos en filas (ter
 archivo=sl.file_uploader("Fichero con los datos.", 'csv')
 modo=tercoctava=sl.checkbox('1/3 de octava')
 
+with sl.sidebar:
+    sl.write("### Selecciona el cálculo que quieras hacer")
+
+    option = sl.radio(
+        '¿Qué cálculo quieres hacer?',
+        ('Nada, sólo estoy mirando','Diferencia de niveles', 'Diferencia de niveles normalizada','Diferencia de niveles estandarizada','Indice de reduccion sonora')
+    )
+    option2 = sl.radio(
+        '¿Quieres calcular un valor absoluto?',
+        ('No','Valor global', 'Valor global ponderado A','Valor global para ruido aereo')
+    )
+
 # Condiciones Checkbox
 if tercoctava:
     df=pd.DataFrame(
         np.zeros((2,31)),
-        columns=tercios
+        columns=tercios,
+
     )
 else:
     df=pd.DataFrame(
         np.zeros((2,10)),
-        columns=octavas
+        columns=octavas,
+
     )
 
 # Condiciones subida archivo
@@ -48,12 +62,7 @@ grid_return = AgGrid(df, editable=True)
 new_df = grid_return['data']
 
 # Selección de cálculos
-sl.write("### Selecciona el cálculo que quieras hacer")
 
-option = sl.radio(
-     '¿Qué cálculo quieres hacer?',
-     ('Nada, sólo estoy mirando','Diferencia de niveles', 'Diferencia de niveles normalizada','Diferencia de niveles estandarizada','Indice de reduccion sonora')
-)
 area= sl.number_input('Area de absorción sonora')
 rt=sl.number_input('Tiempo de reverberación en la sala receptora')
 superficie=sl.number_input('Superficie sobre la que se produce la transmisión directa')
@@ -83,10 +92,7 @@ fin.loc[0]=d
 sl.dataframe(fin)
 
 # Selección de valores globales
-option2 = sl.radio(
-     '¿Quieres calcular un valor absoluto?',
-     ('No','Valor global', 'Valor global ponderado A','Valor global para ruido aereo')
-)
+
 if option2=='Valor global':
     valorGlobal=funciones.obtainGlobal(d)
     valorGlobalFinal=sl.metric(label="Valor global", value=str(valorGlobal)+" dB")
